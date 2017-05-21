@@ -8,5 +8,11 @@ namespace Knapsack_problem
 {
     class Dynamic
     {
+        public List<int> Solve(int[,] instantion, int b)
+        {
+            var result = new List<int>();
+
+            return result;
+        }
     }
 }

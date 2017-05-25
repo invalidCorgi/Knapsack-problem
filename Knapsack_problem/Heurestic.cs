@@ -88,7 +88,7 @@ namespace Knapsack_problem
                 tempArray[0, i] = i;
                 tempArray[1, i] = (float)instantion[1, i] / instantion[0, i];
             }
-            QsFloat(tempArray, 0, length - 1, 1);  //sort by values
+            QsFloat(tempArray, 0, length - 1, 1);  //sort by ratio
             for (int i = length - 1; i >= 0; i--)
             {
                 if (sum + instantion[0, (int) tempArray[0, i]] < b)

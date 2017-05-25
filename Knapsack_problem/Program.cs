@@ -8,7 +8,7 @@ namespace Knapsack_problem
 {
     class Program
     {
-        static int[,] InstantionGenerator(int n) 
+        private static int[,] InstantionGenerator(int n) 
         {
             var rand = new Random();
             var intantion = new int[2,n];
@@ -23,12 +23,15 @@ namespace Knapsack_problem
 
         static void Main(string[] args)
         {
-            for (int cos = 1; cos <= 7; cos++)
+            for (int n = 9; n <= 25; n++)
             {
-
-                for (int attempt = 0; attempt < 15; attempt++)
+                //int n = 8 + 1 * cos;
+                //Console.WriteLine("n: " + n);
+                Console.WriteLine("GH4;PD;BF1;BF2");
+                for (int attempt = 0; attempt < 25; attempt++)
                 {
-                    int n = 8 + 1 * cos, bProc = 50, b, sum = 0;
+                    const int bProc = 75;
+                    int b, sum = 0;
                     var instantion = InstantionGenerator(n);
                     var instantionCopy = new int[3, n];
 
@@ -39,29 +42,30 @@ namespace Knapsack_problem
                     b = sum * bProc / 100;
 
                     var watch = System.Diagnostics.Stopwatch.StartNew();
-                    //var result1 = heurestic.Random(instantion, b);
-                    var result1 = Heurestic.Random(instantion, b);
+
+                    //--------------------------------------------------random
+
+                    /*var result1 = Heurestic.Random(instantion, b);
                     watch.Stop();
-                    Console.WriteLine("n: " + n);
+                    
                     Console.WriteLine(watch.Elapsed.ToString().Substring(6)); // / 10000);
 
                     sum = 0;
                     foreach (var i in result1)
                     {
                         sum += instantion[1, i];
-                    }
+                    }*/
 
-                    for (int i = 0; i < n; i++)
+                    //-----------------------------------------------weight
+
+                    /*for (int i = 0; i < n; i++)
                     {
                         instantionCopy[0, i] = instantion[0, i];
                         instantionCopy[1, i] = instantion[1, i];
                         instantionCopy[2, i] = i;
-                        //instantionCopy[3, i] = 0;
                     }
-                    //Heurestic.Qs(new int[10, 10], 0, 9, 0); //load qs to memory
 
                     watch.Restart();
-                    //var result2 = heurestic.MinWeight(instantionCopy, b);
                     var result2 = Heurestic.MinWeight1(instantionCopy, b);
                     watch.Stop();
                     Console.WriteLine(watch.Elapsed);
@@ -70,19 +74,19 @@ namespace Knapsack_problem
                     foreach (var i in result2)
                     {
                         sum += instantion[1, i];
-                    }
+                    }*/
                     //Console.WriteLine(sum);
 
-                    for (int i = 0; i < n; i++)
+                    //--------------------------------------------max
+
+                    /*for (int i = 0; i < n; i++)
                     {
                         instantionCopy[0, i] = instantion[0, i];
                         instantionCopy[1, i] = instantion[1, i];
                         instantionCopy[2, i] = i;
-                        //instantionCopy[3, i] = 0;
                     }
 
                     watch.Restart();
-                    //var result3 = heurestic.MaxProfit(instantionCopy, b);
                     var result3 = Heurestic.MaxProfit(instantionCopy, b);
                     watch.Stop();
                     Console.WriteLine(watch.Elapsed);
@@ -91,39 +95,43 @@ namespace Knapsack_problem
                     foreach (var i in result3)
                     {
                         sum += instantion[1, i];
-                    }
+                    }*/
                     //Console.WriteLine(sum);
+
+                    //-------------------------------------------------ratio
 
                     for (int i = 0; i < n; i++)
                     {
                         instantionCopy[0, i] = instantion[0, i];
                         instantionCopy[1, i] = instantion[1, i];
                         instantionCopy[2, i] = i;
-                        //instantionCopy[3, i] = 0;
                     }
 
                     watch.Restart();
-                    //var result4 = heurestic.MaxRatio(instantion, b);
                     var result4 = Heurestic.MaxRatio(instantion, b);
                     watch.Stop();
-                    Console.WriteLine(watch.Elapsed);
+                    //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
+                    Console.Write(watch.Elapsed.ToString().Substring(6)+";");
 
-                    sum = 0;
+                    /*sum = 0;
                     foreach (var i in result4)
                     {
                         sum += instantion[1, i];
-                    }
+                    }*/
                     //Console.WriteLine(sum);
+
+                    //--------------------------------------------------------dynamic
 
                     var dynamic = new int[instantion.GetLength(1) + 1, b + 1];
 
                     watch.Restart();
                     Dynamic.Solve(instantion, b, dynamic);
                     watch.Stop();
-                    Console.WriteLine(watch.Elapsed);
-                    Console.WriteLine(dynamic[instantion.GetLength(1), b]);
+                    //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
+                    Console.Write(watch.Elapsed.ToString().Substring(6) + ";");
+                    //Console.WriteLine(dynamic[instantion.GetLength(1), b]);
 
-                    var result5 = new List<int>();
+                    /*var result5 = new List<int>();
                     int j = b;
                     for (int i = n; i > 0; i--)
                     {
@@ -132,23 +140,35 @@ namespace Knapsack_problem
                             result5.Add(i - 1);
                             j -= instantion[0, i - 1];
                         }
-                    }
+                    }*/
 
-                    //var result6 = bf.Bf1(instantion, b);
+                    //------------------------------------------------------------bf1
+
+                    watch.Restart();
                     var result6 = BruteForce.Bf1(instantion, b);
+                    watch.Stop();
+                    //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
+                    Console.Write(watch.Elapsed.ToString().Substring(6) + ";");
 
-                    sum = 0;
+                    /*sum = 0;
                     foreach (var i in result6)
                     {
                         sum += instantion[1, i];
-                    }
-                    Console.WriteLine(sum);
+                    }*/
+                    //Console.WriteLine(sum);
+
+
+                    //----------------------------------------------------------bf2
 
                     BruteForce.max = 0;
+                    watch.Restart();
                     var bitResult = BruteForce.Bf2(n - 1, 0, 0, b, instantion,0);
-                    Console.WriteLine(BruteForce.max);
+                    watch.Stop();
+                    //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
+                    Console.Write(watch.Elapsed.ToString().Substring(6));
+                    //Console.WriteLine(BruteForce.max);
 
-                    var result7 = new List<int>();
+                    /*var result7 = new List<int>();
                     int r = 0;
                     while (bitResult != 0)
                     {
@@ -156,20 +176,12 @@ namespace Knapsack_problem
                             result7.Add(r);
                         bitResult = bitResult >> 1;
                         r++;
-                    }
+                    }*/
+                    Console.WriteLine();
 
-                    /*var result7 = BruteForce.Bf2(instantion, n, b);
-    
-                    sum = 0;
-                    foreach (var i in result7)
-                    {
-                        sum += instantion[1, i];
-                    }
-                    Console.WriteLine(sum);
-    
-                    Console.WriteLine();*/
                     //Console.Read();
                 }
+                Console.WriteLine();
             }
             Console.Read();
             

@@ -23,14 +23,25 @@ namespace Knapsack_problem
 
         static void Main(string[] args)
         {
+            double sumGH4, sumPD, sumBF1, sumBF2;
+            const int bProc = 75, attempts = 10;
+
+            Console.WriteLine("n;b;GH4;PD;BF1;BF2");
+
             for (int n = 9; n <= 25; n++)
+            //for (int n = 100; n <= 1000; n+=100)
             {
+                sumBF1 = sumBF2 = sumGH4 = sumPD = 0;
                 //int n = 8 + 1 * cos;
                 //Console.WriteLine("n: " + n);
-                Console.WriteLine("GH4;PD;BF1;BF2");
-                for (int attempt = 0; attempt < 25; attempt++)
+                
+                Console.Write(n + ";");
+                Console.Write(bProc + "%;");
+                for (int attempt = 0; attempt < attempts; attempt++)
                 {
-                    const int bProc = 75;
+                    
+                    
+                    
                     int b, sum = 0;
                     var instantion = InstantionGenerator(n);
                     var instantionCopy = new int[3, n];
@@ -45,20 +56,21 @@ namespace Knapsack_problem
 
                     //--------------------------------------------------random
 
-                    /*var result1 = Heurestic.Random(instantion, b);
+                    var result1 = Heurestic.Random(instantion, b);
                     watch.Stop();
                     
-                    Console.WriteLine(watch.Elapsed.ToString().Substring(6)); // / 10000);
+                    //Console.WriteLine(watch.Elapsed.ToString().Substring(6)); // / 10000);
 
                     sum = 0;
                     foreach (var i in result1)
                     {
                         sum += instantion[1, i];
-                    }*/
+                    }
+                    //Console.Write(sum+";");
 
                     //-----------------------------------------------weight
 
-                    /*for (int i = 0; i < n; i++)
+                    for (int i = 0; i < n; i++)
                     {
                         instantionCopy[0, i] = instantion[0, i];
                         instantionCopy[1, i] = instantion[1, i];
@@ -68,18 +80,19 @@ namespace Knapsack_problem
                     watch.Restart();
                     var result2 = Heurestic.MinWeight1(instantionCopy, b);
                     watch.Stop();
-                    Console.WriteLine(watch.Elapsed);
+                    //Console.WriteLine(watch.Elapsed);
 
                     sum = 0;
                     foreach (var i in result2)
                     {
                         sum += instantion[1, i];
-                    }*/
+                    }
+                    //Console.Write(sum + ";");
                     //Console.WriteLine(sum);
 
                     //--------------------------------------------max
 
-                    /*for (int i = 0; i < n; i++)
+                    for (int i = 0; i < n; i++)
                     {
                         instantionCopy[0, i] = instantion[0, i];
                         instantionCopy[1, i] = instantion[1, i];
@@ -89,13 +102,14 @@ namespace Knapsack_problem
                     watch.Restart();
                     var result3 = Heurestic.MaxProfit(instantionCopy, b);
                     watch.Stop();
-                    Console.WriteLine(watch.Elapsed);
+                    //Console.WriteLine(watch.Elapsed);
 
                     sum = 0;
                     foreach (var i in result3)
                     {
                         sum += instantion[1, i];
-                    }*/
+                    }
+                    //Console.Write(sum + ";");
                     //Console.WriteLine(sum);
 
                     //-------------------------------------------------ratio
@@ -111,13 +125,18 @@ namespace Knapsack_problem
                     var result4 = Heurestic.MaxRatio(instantion, b);
                     watch.Stop();
                     //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
-                    Console.Write(watch.Elapsed.ToString().Substring(6)+";");
+                    //Console.Write(watch.Elapsed.ToString().Substring(6)+";");
+                    double time = Convert.ToDouble(watch.Elapsed.ToString().Substring(7, 1))+ Convert.ToDouble(watch.Elapsed.ToString().Substring(9))/ 10000000;
+                    sumGH4 += time;
+                    //Console.Write(Convert.ToDouble(watch.Elapsed.ToString().Substring(9))/10000000000 + ";");
+                    //Console.WriteLine(time);
 
-                    /*sum = 0;
+                    sum = 0;
                     foreach (var i in result4)
                     {
                         sum += instantion[1, i];
-                    }*/
+                    }
+                    //Console.Write(sum + ";");
                     //Console.WriteLine(sum);
 
                     //--------------------------------------------------------dynamic
@@ -128,7 +147,10 @@ namespace Knapsack_problem
                     Dynamic.Solve(instantion, b, dynamic);
                     watch.Stop();
                     //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
-                    Console.Write(watch.Elapsed.ToString().Substring(6) + ";");
+                    //Console.Write(watch.Elapsed.ToString().Substring(6) + ";");
+                    //Console.Write(Convert.ToDouble(watch.Elapsed.ToString().Substring(6)) + ";");
+                    time = Convert.ToDouble(watch.Elapsed.ToString().Substring(7, 1)) + Convert.ToDouble(watch.Elapsed.ToString().Substring(9)) / 10000000;
+                    sumPD += time;
                     //Console.WriteLine(dynamic[instantion.GetLength(1), b]);
 
                     /*var result5 = new List<int>();
@@ -148,8 +170,10 @@ namespace Knapsack_problem
                     var result6 = BruteForce.Bf1(instantion, b);
                     watch.Stop();
                     //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
-                    Console.Write(watch.Elapsed.ToString().Substring(6) + ";");
-
+                    //Console.Write(watch.Elapsed.ToString().Substring(6) + ";");
+                    //Console.Write(Convert.ToDouble(watch.Elapsed.ToString().Substring(6)) + ";");
+                    time = Convert.ToDouble(watch.Elapsed.ToString().Substring(7, 1)) + Convert.ToDouble(watch.Elapsed.ToString().Substring(9)) / 10000000;
+                    sumBF1 += time;
                     /*sum = 0;
                     foreach (var i in result6)
                     {
@@ -165,7 +189,10 @@ namespace Knapsack_problem
                     var bitResult = BruteForce.Bf2(n - 1, 0, 0, b, instantion,0);
                     watch.Stop();
                     //Console.WriteLine(watch.Elapsed.ToString().Substring(6));
-                    Console.Write(watch.Elapsed.ToString().Substring(6));
+                    //Console.Write(watch.Elapsed.ToString().Substring(6));
+                    //Console.Write(Convert.ToDouble(watch.Elapsed.ToString().Substring(6)));
+                    time = Convert.ToDouble(watch.Elapsed.ToString().Substring(7, 1)) + Convert.ToDouble(watch.Elapsed.ToString().Substring(9)) / 10000000;
+                    sumBF2 += time;
                     //Console.WriteLine(BruteForce.max);
 
                     /*var result7 = new List<int>();
@@ -177,10 +204,11 @@ namespace Knapsack_problem
                         bitResult = bitResult >> 1;
                         r++;
                     }*/
-                    Console.WriteLine();
+                    //Console.WriteLine();
 
                     //Console.Read();
                 }
+                Console.Write(sumGH4 / attempts + ";" + sumPD / attempts + ";" + sumBF1 / attempts + ";" + sumBF2 / attempts);
                 Console.WriteLine();
             }
             Console.Read();
